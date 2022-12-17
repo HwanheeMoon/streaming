@@ -1,15 +1,30 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request
+from flask_sqlalchemy import SQLAlchemy
+from Model import db
+import os
+
 app = Flask(__name__)
 
-@app.route("/video")
-def hello():
-    return render_template("index.html")
+val = 0
+
+@app.route("/video1")
+def view1():
+    return render_template("video1.html")
+
+@app.route("/video2")
+def view2():
+    return render_template("video2.html")
 
 @app.route("/")
-def login():
-    return render_template("login.html")    
+def main():
+    return render_template("main.html")
 
+@app.route('/write_action', methods=['POST'])
+def write_action():
+    global val
+    val += 1
+    return render_template('video1.html',value = str(val))
+    
 
 if __name__ == "__main__":
-    app.debug = True
-    app.run()
+    app.run(host="127.0.0.1", port=5000, debug=True)
